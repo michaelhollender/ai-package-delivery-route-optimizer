@@ -46,11 +46,14 @@ def load_packages(file_path):
     package_table = HashTable(capacity=20)
 
     with open(file_path, mode="r", encoding="utf-8-sig") as file:
+
         reader = csv.reader(file)
+
+        next(reader, None)  # Skip the CSV header row
 
         for row in reader:
             if not row:
-                continue
+                continue        
 
             package = Package(
                 package_id=int(row[0]),

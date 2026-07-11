@@ -11,7 +11,7 @@ class HashTable:
     def _get_bucket_index(self, key):
         """Returns the bucket index for a key."""
         return hash(key) % self.capacity
-    
+
     def insert(self, key, value):
         """
         Inserts a new key-value pair or updates an existing value.
@@ -24,7 +24,7 @@ class HashTable:
             if pair[0] == key:
                 pair[1] = value
                 return
-            
+
         bucket.append([key, value])
 
     def get(self, key):
@@ -36,9 +36,9 @@ class HashTable:
         for pair in bucket:
             if pair[0] == key:
                 return pair[1]
-        
+
         return None
-    
+
     def remove(self, key):
         """Removes a key-value pair from the hash table."""
 
@@ -51,17 +51,18 @@ class HashTable:
                 return True
 
         return False
-    
+
     def contains(self, key):
-        """Returns all values stored in the hash table."""
+        """Returns True if the key exists in the hash table."""
 
-        all_values = []
+        bucket_index = self._get_bucket_index(key)
+        bucket = self.table[bucket_index]
 
-        for bucket in self.table:
-            for pair in bucket:
-                all_values.append(pair[1])
+        for pair in bucket:
+            if pair[0] == key:
+                return True
 
-        return all_values
+        return False
 
     def keys(self):
         """Returns all keys stored in the hash table."""
@@ -73,8 +74,21 @@ class HashTable:
                 all_keys.append(pair[0])
 
         return all_keys
-    
+
+    def values(self):
+        """Returns all values stored in the hash table."""
+
+        all_values = []
+
+        for bucket in self.table:
+            for pair in bucket:
+                all_values.append(pair[1])
+
+        return all_values
+
     def __len__(self):
+        """Returns the number of items stored in the hash table."""
+
         count = 0
 
         for bucket in self.table:
